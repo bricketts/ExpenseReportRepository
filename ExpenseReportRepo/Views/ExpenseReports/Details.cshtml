@@ -1,0 +1,41 @@
+@model ExpenseReportRepo.Models.ExpenseReport
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Report Details</h2>
+
+<div>    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateSubmitted)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateSubmitted)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DatePaid)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DatePaid)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
