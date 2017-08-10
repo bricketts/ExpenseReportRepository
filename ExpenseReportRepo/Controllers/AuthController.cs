@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using ExpenseReportRepo.Models;
 using ExpenseReportRepo.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ExpenseReportRepo.Controllers
 {
@@ -49,6 +50,7 @@ namespace ExpenseReportRepo.Controllers
             return View();
         }
 
+        [Authorize]
         public async Task<ActionResult> Logout()
         {
             if (User.Identity.IsAuthenticated)
