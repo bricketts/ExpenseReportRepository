@@ -21,7 +21,7 @@ namespace ExpenseReportRepo.Controllers
         }
 
         // GET: ExpenseReports
-        [Authorize]
+        [Authorize] // Will Redirect to login page
         public async Task<IActionResult> Index()
         {
             ViewData["MonthlyReceived"] = MonthlyAmountReceived(_context.ExpenseReport);

@@ -8,10 +8,10 @@ namespace ExpenseReportRepo.Models
 {
     public class ExpenseReportSeedData
     {
-        private ExpenseReport _context;
+        private ExpenseReportRepoContext _context;
         private UserManager<User> _userManager;
 
-        public ExpenseReportSeedData(ExpenseReport context, UserManager<User> userManager)
+        public ExpenseReportSeedData(ExpenseReportRepoContext context, UserManager<User> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -30,15 +30,25 @@ namespace ExpenseReportRepo.Models
                 await _userManager.CreateAsync(user, "P@ssw0rD!");
             }
 
-            if (!_context.Name.Any())
+            if (!_context.ExpenseReport.Any())
             {
-                var newReport01 = new ExpenseReport
+                var newReport = new ExpenseReport
                 {
                     UserName = "bricketts",
                     Name = "Site Services to SV213-01",
                     DateSubmitted = DateTime.Now,
                     DatePaid = DateTime.Now
                 };
+
+                var newReport01 = new ExpenseReport
+                {
+                    UserName = "bricketts",
+                    Name = "Site Services to SV167-04",
+                    DateSubmitted = DateTime.Now,
+                    DatePaid = DateTime.Now
+                };
+
+                await _context.SaveChangesAsync();
                 
             }
         }

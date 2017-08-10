@@ -34,11 +34,11 @@ namespace ExpenseReportRepo.Controllers
             if (ModelState.IsValid)
             {
                 var signInResult = await _signInManager.PasswordSignInAsync(vm.UserName,
-                    vm.Password, true, false);
+                    vm.Password, false, false);
 
                 if (signInResult.Succeeded)
                 {
-                    return RedirectToAction("Index", "ExpenseReport");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -47,6 +47,15 @@ namespace ExpenseReportRepo.Controllers
             }
 
             return View();
+        }
+
+        public async Task<ActionResult> Logout()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                await _signInManager.SignOutAsync();
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }
