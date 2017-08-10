@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ExpenseReportRepo.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ExpenseReportRepo.Controllers
 {
@@ -20,6 +21,7 @@ namespace ExpenseReportRepo.Controllers
         }
 
         // GET: ExpenseReports
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             ViewData["MonthlyReceived"] = MonthlyAmountReceived(_context.ExpenseReport);

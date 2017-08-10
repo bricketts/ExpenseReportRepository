@@ -9,6 +9,7 @@ namespace ExpenseReportRepo.Models
     public class ExpenseReport
     {
         public int ID { get; set; }
+        public string UserName { get; set; }
         [Required]
         [MaxLength(255)]
         public string Name { get; set; }

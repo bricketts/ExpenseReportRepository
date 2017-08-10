@@ -8,9 +8,10 @@ using ExpenseReportRepo.Models;
 namespace ExpenseReportRepo.Migrations
 {
     [DbContext(typeof(ExpenseReportRepoContext))]
-    partial class ExpenseReportRepoContextModelSnapshot : ModelSnapshot
+    [Migration("20170810002115_UpdateReportContext")]
+    partial class UpdateReportContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

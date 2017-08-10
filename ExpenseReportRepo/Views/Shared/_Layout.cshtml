@@ -34,21 +34,30 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-left">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="ExpenseReports" asp-action="Index">Expense Reports</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-area="" asp-controller="ExpenseReports" asp-action="Index">Expense Reports</a></li>
+                    }                    
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>                    
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Register</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Login</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Logout</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Register</a></li>
+                        <li><a asp-area="" asp-controller="Auth" asp-action="Login">Login</a></li>
+                    }
                 </ul>
             </div>
         </div>
     </nav>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        
+        <hr />        
     </div>
     <div id="footer" class="container-fluid">
         <div class="navbar navbar-inverse navbar-fixed-bottom">

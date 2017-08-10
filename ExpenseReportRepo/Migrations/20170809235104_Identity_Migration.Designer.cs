@@ -8,9 +8,10 @@ using ExpenseReportRepo.Models;
 namespace ExpenseReportRepo.Migrations
 {
     [DbContext(typeof(ExpenseReportRepoContext))]
-    partial class ExpenseReportRepoContextModelSnapshot : ModelSnapshot
+    [Migration("20170809235104_Identity_Migration")]
+    partial class Identity_Migration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -30,8 +31,6 @@ namespace ExpenseReportRepo.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255);
-
-                    b.Property<string>("UserName");
 
                     b.HasKey("ID");
 
