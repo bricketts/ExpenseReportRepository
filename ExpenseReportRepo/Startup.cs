@@ -36,6 +36,8 @@ namespace ExpenseReportRepo
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddSingleton(Configuration);
+
             services.AddDbContext<ExpenseReportRepoContext>();
 
             services.AddIdentity<User, IdentityRole>(config =>
@@ -48,6 +50,10 @@ namespace ExpenseReportRepo
 
             services.AddDbContext<ExpenseReportRepoContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ExpenseReportRepoContext")));
+
+            services.AddDbContext<ExpenseReportRepoContext>();
+
+            services.AddTransient<ExpenseReportSeedData>();
             
             services.AddMvc(config =>
             {
@@ -59,7 +65,10 @@ namespace ExpenseReportRepo
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, 
+            IHostingEnvironment env, 
+            ILoggerFactory loggerFactory,
+            ExpenseReportSeedData seeder)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -84,6 +93,8 @@ namespace ExpenseReportRepo
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            seeder.EnsureSeedData().Wait();
             
         }
     }
