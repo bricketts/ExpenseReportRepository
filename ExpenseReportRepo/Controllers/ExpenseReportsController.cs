@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ExpenseReportRepo.Controllers
 {
+    [Authorize]
     public class ExpenseReportsController : Controller
     {
         private readonly ExpenseReportRepoContext _context;
@@ -21,13 +22,16 @@ namespace ExpenseReportRepo.Controllers
         }
 
         // GET: ExpenseReports
-        [Authorize] // Will Redirect to login page
+        
         public async Task<IActionResult> Index()
         {
             ViewData["MonthlyReceived"] = MonthlyAmountReceived(_context.ExpenseReport);
             ViewData["YearlyReceived"] = YearlyAmountReceived(_context.ExpenseReport);
             ViewData["TotalReceived"] = TotalAmountReceived(_context.ExpenseReport);
-            return View(await _context.ExpenseReport.ToListAsync());
+            var UserReports = _context.ExpenseReport
+                .Where(t => t.UserName == User.Identity.Name)
+                .ToListAsync();
+            return View(await UserReports);
         }
 
         // GET: ExpenseReports/Details/5

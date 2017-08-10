@@ -1,18 +1,18 @@
-@model ExpenseReportRepo.ViewModels.LoginViewModel
+﻿@model ExpenseReportRepo.ViewModels.RegisterViewModel
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Register";
 }
 
-<h2>Login</h2>
+<h2>Register</h2>
 
 <div class="row">
     <div class="col-lg-6 col-lg-offset-3">
-        <h3>Login</h3>
+        <h3>Register</h3>
         <form method="post">
             <div asp-validation-summary="ModelOnly"></div>
             <div class="form-group">
-                <label asp-for="UserName">User Name</label>
+                <label asp-for="UserName"></label>
                 <input asp-for="UserName" class="form-control" />
                 <span asp-validation-for="UserName"></span>
             </div>
@@ -22,7 +22,12 @@
                 <span asp-validation-for="Password"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Login" class="btn btn-lg btn-success" />
+                <label asp-for="ConfirmPassword">Confirm Password</label>
+                <input type="password" asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Register" class="btn btn-lg btn-success" />
             </div>
         </form>
     </div>

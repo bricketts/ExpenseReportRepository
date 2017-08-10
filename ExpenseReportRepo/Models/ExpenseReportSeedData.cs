@@ -27,7 +27,19 @@ namespace ExpenseReportRepo.Models
                     Email = "brody.ricketts@email.com"
                 };
 
-                await _userManager.CreateAsync(user, "P@ssw0rD!");
+                await _userManager.CreateAsync(user, "P@ssw0rD!");                
+            }
+
+            if(await _userManager.FindByEmailAsync("admin@email.com") == null)
+            {
+                var admin = new User()
+                {
+                    UserName = "admin",
+                    Email = "admin@email.com"
+                };
+
+
+                await _userManager.CreateAsync(admin, "P@ssw0rD!");
             }
 
             if (!_context.ExpenseReport.Any())
@@ -40,6 +52,8 @@ namespace ExpenseReportRepo.Models
                     DatePaid = DateTime.Now
                 };
 
+                _context.ExpenseReport.Add(newReport);
+
                 var newReport01 = new ExpenseReport
                 {
                     UserName = "bricketts",
@@ -47,6 +61,8 @@ namespace ExpenseReportRepo.Models
                     DateSubmitted = DateTime.Now,
                     DatePaid = DateTime.Now
                 };
+
+                _context.ExpenseReport.Add(newReport01);
 
                 await _context.SaveChangesAsync();
                 

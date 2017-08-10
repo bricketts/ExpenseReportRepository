@@ -57,5 +57,10 @@ namespace ExpenseReportRepo.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
     }
 }
