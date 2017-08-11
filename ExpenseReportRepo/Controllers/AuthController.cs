@@ -19,6 +19,11 @@ namespace ExpenseReportRepo.Controllers
             _signInManager = signInManager;
         }
 
+        public IActionResult Register()
+        {
+            return View();
+        }
+
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
@@ -60,9 +65,6 @@ namespace ExpenseReportRepo.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Register()
-        {
-            return View();
-        }
+        
     }
 }
