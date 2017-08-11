@@ -68,6 +68,7 @@ namespace ExpenseReportRepo
         public void Configure(IApplicationBuilder app, 
             IHostingEnvironment env, 
             ILoggerFactory loggerFactory,
+            ExpenseReportRepoContext dbContext,
             ExpenseReportSeedData seeder)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
@@ -77,6 +78,7 @@ namespace ExpenseReportRepo
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
+                dbContext.Database.Migrate();
             }
             else
             {
