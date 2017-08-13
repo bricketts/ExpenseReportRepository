@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ExpenseReportRepo.Controllers
 {
-
+    [Authorize]
     public class ExpenseReportsController : Controller
     {
         private readonly ExpenseReportRepoContext _context;
@@ -28,10 +28,10 @@ namespace ExpenseReportRepo.Controllers
             ViewData["MonthlyReceived"] = MonthlyAmountReceived(_context.ExpenseReport);
             ViewData["YearlyReceived"] = YearlyAmountReceived(_context.ExpenseReport);
             ViewData["TotalReceived"] = TotalAmountReceived(_context.ExpenseReport);
-            var UserReports = _context.ExpenseReport
+            var UserReports = await _context.ExpenseReport
                 .Where(t => t.UserName == User.Identity.Name)
                 .ToListAsync();
-            return View(await UserReports);
+            return View(UserReports);
         }
 
         // GET: ExpenseReports/Details/5
@@ -63,7 +63,7 @@ namespace ExpenseReportRepo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,Amount,DateSubmitted,DatePaid")] ExpenseReport expenseReport)
+        public async Task<IActionResult> Create([Bind("ID,UserName,Name,Amount,DateSubmitted,DatePaid")] ExpenseReport expenseReport)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +95,7 @@ namespace ExpenseReportRepo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Amount,DatePaid,DateSubmitted")] ExpenseReport expenseReport)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,UserName,Name,Amount,DatePaid,DateSubmitted")] ExpenseReport expenseReport)
         {
             if (id != expenseReport.ID)
             {
@@ -166,7 +166,7 @@ namespace ExpenseReportRepo.Controllers
         private decimal MonthlyAmountReceived(IEnumerable<ExpenseReport> reports)
         {
             //Create variable to store query filtered by current month
-            var currentMonthAmount = reports.Where(r => r.DatePaid.Month == DateTime.Now.Month);
+            var currentMonthAmount = reports.Where(r => r.DatePaid.Month == DateTime.Now.Month && r.UserName == User.Identity.Name);
             //Return total values for the Amount field for current filter
             return currentMonthAmount.Sum(r => r.Amount);
         }
@@ -175,7 +175,7 @@ namespace ExpenseReportRepo.Controllers
         private decimal YearlyAmountReceived(IEnumerable<ExpenseReport> reports)
         {
             //Create variable to store query filtered by current year
-            var currentYearlyAmount = reports.Where(r => r.DatePaid.Year == DateTime.Now.Year);
+            var currentYearlyAmount = reports.Where(r => r.DatePaid.Year == DateTime.Now.Year && r.UserName == User.Identity.Name);
             //return total values for Amount field for current filter
             return currentYearlyAmount.Sum(r => r.Amount);
         }
@@ -184,7 +184,8 @@ namespace ExpenseReportRepo.Controllers
         private decimal TotalAmountReceived(IEnumerable<ExpenseReport> reports)
         {
             //Total values for Amount field of all db entries
-            return reports.Sum(r => r.Amount);
+            return reports.Where(r => r.UserName == User.Identity.Name)
+                          .Sum(r => r.Amount);
         }
 
         #endregion
