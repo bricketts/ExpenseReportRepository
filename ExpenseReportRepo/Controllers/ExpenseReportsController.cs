@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ExpenseReportRepo.Controllers
 {
-    [Authorize]
+
     public class ExpenseReportsController : Controller
     {
         private readonly ExpenseReportRepoContext _context;
