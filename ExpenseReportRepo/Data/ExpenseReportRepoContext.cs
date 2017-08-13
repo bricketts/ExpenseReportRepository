@@ -27,5 +27,7 @@ namespace ExpenseReportRepo.Models
 
             optionsBuilder.UseSqlServer(_config["ConnectionStrings:ExpenseReportRepoContext"]);
         }
+
+        public DbSet<ExpenseReportRepo.Models.User> User { get; set; }
     }
 }
