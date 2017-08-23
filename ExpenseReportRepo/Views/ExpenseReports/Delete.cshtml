@@ -11,7 +11,7 @@
     <h4>ExpenseReport</h4>
     <hr />
     <dl class="dl-horizontal">
-        <input type="hidden" asp-for="ID" />
+        <dt type="hidden" asp-for="ID" />
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
@@ -40,8 +40,8 @@
     
     <form asp-action="Delete">
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            <a asp-action="Index">Back to List</a>
+            <input type="submit" value="Delete" class="btn btn-warning" />
+            <a asp-action="Index" class="btn btn-default">Cancel</a>
         </div>
     </form>
 </div>

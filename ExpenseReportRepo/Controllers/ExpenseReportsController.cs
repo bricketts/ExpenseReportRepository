@@ -67,6 +67,7 @@ namespace ExpenseReportRepo.Controllers
         {
             if (ModelState.IsValid)
             {
+                expenseReport.UserName = User.Identity.Name;
                 _context.Add(expenseReport);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -106,6 +107,7 @@ namespace ExpenseReportRepo.Controllers
             {
                 try
                 {
+                    expenseReport.UserName = User.Identity.Name;
                     _context.Update(expenseReport);
                     await _context.SaveChangesAsync();
                 }

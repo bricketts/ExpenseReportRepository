@@ -64,6 +64,16 @@ namespace ExpenseReportRepo.Models
 
                 _context.ExpenseReport.Add(newReport01);
 
+                var newReport03 = new ExpenseReport
+                {
+                    UserName = "admin",
+                    Name = "Site Services to SLC_03",
+                    DateSubmitted = DateTime.Now,
+                    DatePaid = DateTime.Now
+                };
+
+                _context.ExpenseReport.Add(newReport03);
+
                 await _context.SaveChangesAsync();
                 
             }
