@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ExpenseReportRepo.Controllers
 {
-    public class AcountController : Controller
+    public class AuthController : Controller
     {
         private SignInManager<User> _signInManager;
 
-        public AcountController(SignInManager<User> signInManager)
+        public AuthController(SignInManager<User> signInManager)
         {
             _signInManager = signInManager;
         }

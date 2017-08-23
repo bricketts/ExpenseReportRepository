@@ -85,10 +85,7 @@ namespace ExpenseReportRepo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,UserName,Email," +
-                                                               "EmailConfirmed,PhoneNumber," +
-                                                               "PhoneNumberConfirmed,TwoFactorEnabled," +
-                                                               "LockoutEnabled,AccessFailedCount")] User user)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,UserName,Email,EmailConfirmed,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnabled,AccessFailedCount")] User user)
         {
             if (id != user.Id)
             {

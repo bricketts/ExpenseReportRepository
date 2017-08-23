@@ -44,7 +44,7 @@ namespace ExpenseReportRepo
             {
                 config.User.RequireUniqueEmail = true;
                 config.Password.RequiredLength = 8;
-                config.Cookies.ApplicationCookie.LoginPath = "/Account/Login";
+                config.Cookies.ApplicationCookie.LoginPath = "/Auth/Login";
             })
             .AddEntityFrameworkStores<ExpenseReportRepoContext>();
 
