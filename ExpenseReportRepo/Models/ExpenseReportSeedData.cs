@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,15 @@ namespace ExpenseReportRepo.Models
     {
         private ExpenseReportRepoContext _context;
         private UserManager<User> _userManager;
+        private RoleManager<IdentityRole> _roleManager;
 
-        public ExpenseReportSeedData(ExpenseReportRepoContext context, UserManager<User> userManager)
+        public ExpenseReportSeedData(ExpenseReportRepoContext context, 
+                                     UserManager<User> userManager, 
+                                     RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public async Task EnsureSeedData()
@@ -40,6 +45,21 @@ namespace ExpenseReportRepo.Models
 
 
                 await _userManager.CreateAsync(admin, "P@ssw0rD!");
+            }
+
+            if(await _roleManager.FindByNameAsync("Member") == null)
+            {
+                await _roleManager.CreateAsync(new IdentityRole { Name = "Member" });
+            }
+
+            if (await _roleManager.FindByNameAsync("Administrator") == null)
+            {
+                await _roleManager.CreateAsync(new IdentityRole { Name = "Administrator" });
+            }
+
+            if (await _roleManager.FindByNameAsync("Manager") == null)
+            {
+                await _roleManager.CreateAsync(new IdentityRole { Name = "Manager" });
             }
 
             if (!_context.ExpenseReport.Any())

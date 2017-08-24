@@ -40,13 +40,9 @@ namespace ExpenseReportRepo
 
             services.AddDbContext<ExpenseReportRepoContext>();
 
-            services.AddIdentity<User, IdentityRole>(config =>
-            {
-                config.User.RequireUniqueEmail = true;
-                config.Password.RequiredLength = 8;
-                config.Cookies.ApplicationCookie.LoginPath = "/Auth/Login";
-            })
-            .AddEntityFrameworkStores<ExpenseReportRepoContext>();
+            services.AddIdentity<User, IdentityRole>(config => config.Cookies.ApplicationCookie.LoginPath = "/Auth/Login")
+            .AddEntityFrameworkStores<ExpenseReportRepoContext>()
+            .AddDefaultTokenProviders();
 
             services.AddDbContext<ExpenseReportRepoContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ExpenseReportRepoContext")));
@@ -66,10 +62,10 @@ namespace ExpenseReportRepo
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, 
-            IHostingEnvironment env, 
-            ILoggerFactory loggerFactory,
-            ExpenseReportRepoContext dbContext,
-            ExpenseReportSeedData seeder)
+                              IHostingEnvironment env, 
+                              ILoggerFactory loggerFactory,
+                              ExpenseReportRepoContext dbContext,
+                              ExpenseReportSeedData seeder)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
