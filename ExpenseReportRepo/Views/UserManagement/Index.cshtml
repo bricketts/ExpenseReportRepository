@@ -3,6 +3,10 @@
 @model ExpenseReportRepo.ViewModels.UserManagementIndexViewModel
 @inject UserManager<User> userManager
 
+
+<p>
+    <a asp-action="AddNewUser" asp-controller="UserManagement" class="btn btn-primary">Create New</a>
+</p>
 <table class="table">
     <thead>
         <tr>

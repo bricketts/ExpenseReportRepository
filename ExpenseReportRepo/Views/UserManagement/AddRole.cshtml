@@ -5,8 +5,10 @@
 <div asp-validation-summary="All"></div>
 <form asp-controller="UserManagement" asp-action="AddRole">
     <input asp-for="UserId" type="hidden"/>
-    <select asp-for="NewRole" asp-items="Model.Roles">
-              
-    </select>
-    <input type="submit" value="Add Role" class="btn btn-success"/>
+    <div class="col-lg-5">
+        <select class="form-control" id="select" asp-for="NewRole" asp-items="Model.Roles"></select>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Add Role" class="btn btn-success" />
+    </div>
 </form>

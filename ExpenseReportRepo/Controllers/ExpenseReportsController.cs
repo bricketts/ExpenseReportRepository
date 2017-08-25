@@ -52,7 +52,7 @@ namespace ExpenseReportRepo.Controllers
             return View(expenseReport);
         }
 
-        // GET: ExpenseReports/Create
+        [HttpGet]
         public IActionResult Create()
         {
             return View();

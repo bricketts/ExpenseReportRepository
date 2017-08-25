@@ -74,6 +74,43 @@ namespace ExpenseReportRepo.Controllers
             
         }
 
+        public IActionResult AddNewUser()
+        {
+            var model = new AddNewUserViewModel();
+            model.Roles = new SelectList(_dbcontext.Roles);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewUser(AddNewUserViewModel vm)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var user = new User { UserName = vm.Email, Email = vm.Email };
+                var result = await _userManager.CreateAsync(user, vm.Password);
+
+                if (result.Succeeded)
+                {
+                    var addRole = await _userManager.AddToRoleAsync(user, vm.RoleId);
+                    if(addRole.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(error.Code, error.Description);
+                    }
+                }
+            }
+            return View(vm);
+        }
+
+        #region Helper Methods
+
         private async Task<User> GetUserById(string id)
         {
             return await _userManager.FindByIdAsync(id);
@@ -82,5 +119,6 @@ namespace ExpenseReportRepo.Controllers
         private SelectList GetAllRoles() => 
             new SelectList(_roleManager.Roles.OrderBy(r => r.Name));
 
+        #endregion
     }
 }
