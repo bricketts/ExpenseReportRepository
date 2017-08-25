@@ -5,8 +5,8 @@ namespace ExpenseReportRepo.ViewModels
     public class RegisterViewModel
     {
         [Required]
-        [Display(Name = "User Name")]
-        public string UserName { get; set; }
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
         [Required]
         [MinLength(8)]
         [MaxLength(50)]

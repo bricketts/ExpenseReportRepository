@@ -7,7 +7,7 @@
 <h2>Add New User</h2>
 
 <div class="row">
-    <div class="col-lg-5 col-md-offset-2">
+    <div class="col-lg-4 col-md-offset-2">
         <form method="post" asp-controller="UserManagement" asp-action="AddNewUser">
             <div asp-validation-summary="All"></div>
             <div class="form-group">
@@ -16,8 +16,8 @@
                 <span asp-validation-for="Email"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Roles">Roles</label>
-                <select asp-for="RoleId" asp-items="@Model.Roles" class="col-lg-5"></select>                
+                <label asp-for="Roles" class="control-label">Roles</label>                
+                <select asp-for="RoleId" asp-items="@Model.Roles" class="form-control">Please Select</select>                
             </div>           
             <div class="form-group">
                 <label asp-for="Password"></label>
@@ -30,7 +30,7 @@
                 <span asp-validation-for="ConfirmPassword"></span>
             </div>            
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-lg btn-success" />
+                <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </form>
     </div>

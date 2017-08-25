@@ -33,7 +33,11 @@ namespace ExpenseReportRepo.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = vm.UserName };
+                var user = new User
+                {
+                    UserName = vm.Email,
+                    Email = vm.Email
+                };
                 var result = await _userManager.CreateAsync(user, vm.Password);
 
                 if (result.Succeeded)
@@ -68,7 +72,7 @@ namespace ExpenseReportRepo.Controllers
         {
             if (ModelState.IsValid)
             {
-                var signInResult = await _signInManager.PasswordSignInAsync(vm.UserName,
+                var signInResult = await _signInManager.PasswordSignInAsync(vm.Email,
                     vm.Password, vm.RememberMe, false);
 
                 if (signInResult.Succeeded)

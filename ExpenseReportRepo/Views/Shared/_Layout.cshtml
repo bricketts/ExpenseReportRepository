@@ -42,13 +42,13 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     @if (User.Identity.Name == "admin")
                     {
-                    <li><a asp-area="" asp-controller="Users" asp-action="Index">Users</a></li>
+                    <li><a asp-area="" asp-controller="UserManagement" asp-action="Index">Users</a></li>
                     }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">@User.Identity.Name</a></li>
+                        <li><a asp-area="" >@User.Identity.Name</a></li>
                         <li><a asp-area="" asp-controller="Auth" asp-action="Logout">Logout</a></li>
                     }
                     else

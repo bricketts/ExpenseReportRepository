@@ -27,6 +27,8 @@ namespace ExpenseReportRepo.Controllers
             _roleManager = roleManager;
         }
 
+        #region MVC Methods
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -48,6 +50,7 @@ namespace ExpenseReportRepo.Controllers
                 UserId = id,
                 UserName = user.UserName
             };
+
             return View(vm);
         }
 
@@ -68,11 +71,12 @@ namespace ExpenseReportRepo.Controllers
                     ModelState.AddModelError(error.Code, error.Description);
                 }                
             }
+
             rvm.UserName = user.UserName;
             rvm.Roles = GetAllRoles();
             return View(rvm);
             
-        }
+        }        
 
         public IActionResult AddNewUser()
         {
@@ -108,6 +112,8 @@ namespace ExpenseReportRepo.Controllers
             }
             return View(vm);
         }
+
+        #endregion
 
         #region Helper Methods
 

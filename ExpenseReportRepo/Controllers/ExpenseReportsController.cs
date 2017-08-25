@@ -21,8 +21,7 @@ namespace ExpenseReportRepo.Controllers
             _context = context;    
         }
 
-        // GET: ExpenseReports
-        
+        [HttpGet]        
         public async Task<IActionResult> Index()
         {
             ViewData["MonthlyReceived"] = MonthlyAmountReceived(_context.ExpenseReport);
@@ -76,6 +75,7 @@ namespace ExpenseReportRepo.Controllers
         }
 
         // GET: ExpenseReports/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

@@ -24,12 +24,12 @@ namespace ExpenseReportRepo.Models
 
         public async Task EnsureSeedData()
         {
-            if(await _userManager.FindByEmailAsync("brody.ricketts@email.com") == null)
+            if(await _userManager.FindByEmailAsync("bricketts@email.com") == null)
             {
                 var user = new User()
                 {
-                    UserName = "bricketts",
-                    Email = "brody.ricketts@email.com"
+                    UserName = "bricketts@email.com",
+                    Email = "bricketts@email.com"
                 };
 
                 await _userManager.CreateAsync(user, "P@ssw0rD!");                
@@ -39,7 +39,7 @@ namespace ExpenseReportRepo.Models
             {
                 var admin = new User()
                 {
-                    UserName = "admin",
+                    UserName = "admin@email.com",
                     Email = "admin@email.com"
                 };
 
@@ -66,7 +66,7 @@ namespace ExpenseReportRepo.Models
             {
                 var newReport = new ExpenseReport
                 {
-                    UserName = "bricketts",
+                    UserName = "bricketts@email.com",
                     Name = "Site Services to SV213-01",
                     DateSubmitted = DateTime.Now,
                     DatePaid = DateTime.Now
@@ -76,7 +76,7 @@ namespace ExpenseReportRepo.Models
 
                 var newReport01 = new ExpenseReport
                 {
-                    UserName = "bricketts",
+                    UserName = "bricketts@email.com",
                     Name = "Site Services to SV167-04",
                     DateSubmitted = DateTime.Now,
                     DatePaid = DateTime.Now
@@ -86,7 +86,7 @@ namespace ExpenseReportRepo.Models
 
                 var newReport03 = new ExpenseReport
                 {
-                    UserName = "admin",
+                    UserName = "admin@email.com",
                     Name = "Site Services to SLC_03",
                     DateSubmitted = DateTime.Now,
                     DatePaid = DateTime.Now
