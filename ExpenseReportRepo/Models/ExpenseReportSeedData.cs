@@ -9,7 +9,7 @@ namespace ExpenseReportRepo.Models
 {
     public class ExpenseReportSeedData
     {
-        private ExpenseReportRepoContext _context;
+        private ExpenseReportRepoContext _dbcontext;
         private UserManager<User> _userManager;
         private RoleManager<IdentityRole> _roleManager;
 
@@ -17,7 +17,7 @@ namespace ExpenseReportRepo.Models
                                      UserManager<User> userManager, 
                                      RoleManager<IdentityRole> roleManager)
         {
-            _context = context;
+            _dbcontext = context;
             _userManager = userManager;
             _roleManager = roleManager;
         }
@@ -62,7 +62,7 @@ namespace ExpenseReportRepo.Models
                 await _roleManager.CreateAsync(new IdentityRole { Name = "Manager" });
             }
 
-            if (!_context.ExpenseReport.Any())
+            if (!_dbcontext.ExpenseReport.Any())
             {
                 var newReport = new ExpenseReport
                 {
@@ -72,7 +72,7 @@ namespace ExpenseReportRepo.Models
                     DatePaid = DateTime.Now
                 };
 
-                _context.ExpenseReport.Add(newReport);
+                _dbcontext.ExpenseReport.Add(newReport);
 
                 var newReport01 = new ExpenseReport
                 {
@@ -82,7 +82,7 @@ namespace ExpenseReportRepo.Models
                     DatePaid = DateTime.Now
                 };
 
-                _context.ExpenseReport.Add(newReport01);
+                _dbcontext.ExpenseReport.Add(newReport01);
 
                 var newReport03 = new ExpenseReport
                 {
@@ -92,9 +92,9 @@ namespace ExpenseReportRepo.Models
                     DatePaid = DateTime.Now
                 };
 
-                _context.ExpenseReport.Add(newReport03);
+                _dbcontext.ExpenseReport.Add(newReport03);
 
-                await _context.SaveChangesAsync();
+                await _dbcontext.SaveChangesAsync();
                 
             }
         }

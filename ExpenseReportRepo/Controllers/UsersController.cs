@@ -11,17 +11,17 @@ namespace ExpenseReportRepo.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly ExpenseReportRepoContext _context;
+        private readonly ExpenseReportRepoContext _dbcontext;
 
         public UsersController(ExpenseReportRepoContext context)
         {
-            _context = context;    
+            _dbcontext = context;    
         }
 
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            return View(await _context.User.ToListAsync());
+            return View(await _dbcontext.User.ToListAsync());
         }
 
         // GET: Users/Details/5
@@ -32,7 +32,7 @@ namespace ExpenseReportRepo.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
+            var user = await _dbcontext.User
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
@@ -57,8 +57,8 @@ namespace ExpenseReportRepo.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
-                await _context.SaveChangesAsync();
+                _dbcontext.Add(user);
+                await _dbcontext.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(user);
@@ -72,7 +72,7 @@ namespace ExpenseReportRepo.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User.SingleOrDefaultAsync(m => m.Id == id);
+            var user = await _dbcontext.User.SingleOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -96,7 +96,7 @@ namespace ExpenseReportRepo.Controllers
             {
                 try
                 {
-                    var matchingUser = _context.Users.First(x => x.Id == user.Id);
+                    var matchingUser = _dbcontext.Users.First(x => x.Id == user.Id);
 
                     matchingUser.UserName = user.UserName;
                     matchingUser.Email = user.Email;
@@ -106,8 +106,8 @@ namespace ExpenseReportRepo.Controllers
                     matchingUser.TwoFactorEnabled = user.TwoFactorEnabled;
                     matchingUser.LockoutEnabled = user.LockoutEnabled;
                     matchingUser.AccessFailedCount = user.AccessFailedCount;
-                    _context.Update(matchingUser);
-                    await _context.SaveChangesAsync();
+                    _dbcontext.Update(matchingUser);
+                    await _dbcontext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {
@@ -133,7 +133,7 @@ namespace ExpenseReportRepo.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
+            var user = await _dbcontext.User
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
@@ -148,15 +148,15 @@ namespace ExpenseReportRepo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var user = await _context.User.SingleOrDefaultAsync(m => m.Id == id);
-            _context.User.Remove(user);
-            await _context.SaveChangesAsync();
+            var user = await _dbcontext.User.SingleOrDefaultAsync(m => m.Id == id);
+            _dbcontext.User.Remove(user);
+            await _dbcontext.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
         private bool UserExists(string id)
         {
-            return _context.User.Any(e => e.Id == id);
+            return _dbcontext.User.Any(e => e.Id == id);
         }
     }
 }

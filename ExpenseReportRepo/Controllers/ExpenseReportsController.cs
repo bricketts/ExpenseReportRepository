@@ -13,21 +13,21 @@ namespace ExpenseReportRepo.Controllers
     [Authorize(Roles = "Member")]
     public class ExpenseReportsController : Controller
     {
-        private readonly ExpenseReportRepoContext _context;
+        private readonly ExpenseReportRepoContext _dbcontext;
 
         #region MVC Methods
-        public ExpenseReportsController(ExpenseReportRepoContext context)
+        public ExpenseReportsController(ExpenseReportRepoContext dbcontext)
         {
-            _context = context;    
+            _dbcontext = dbcontext;    
         }
 
         [HttpGet]        
         public async Task<IActionResult> Index()
         {
-            ViewData["MonthlyReceived"] = MonthlyAmountReceived(_context.ExpenseReport);
-            ViewData["YearlyReceived"] = YearlyAmountReceived(_context.ExpenseReport);
-            ViewData["TotalReceived"] = TotalAmountReceived(_context.ExpenseReport);
-            var UserReports = await _context.ExpenseReport
+            ViewData["MonthlyReceived"] = MonthlyAmountReceived(_dbcontext.ExpenseReport);
+            ViewData["YearlyReceived"] = YearlyAmountReceived(_dbcontext.ExpenseReport);
+            ViewData["TotalReceived"] = TotalAmountReceived(_dbcontext.ExpenseReport);
+            var UserReports = await _dbcontext.ExpenseReport
                 .Where(t => t.UserName == User.Identity.Name)
                 .ToListAsync();
             return View(UserReports);
@@ -41,7 +41,7 @@ namespace ExpenseReportRepo.Controllers
                 return NotFound();
             }
 
-            var expenseReport = await _context.ExpenseReport
+            var expenseReport = await _dbcontext.ExpenseReport
                 .SingleOrDefaultAsync(m => m.ID == id);
             if (expenseReport == null)
             {
@@ -67,8 +67,8 @@ namespace ExpenseReportRepo.Controllers
             if (ModelState.IsValid)
             {
                 expenseReport.UserName = User.Identity.Name;
-                _context.Add(expenseReport);
-                await _context.SaveChangesAsync();
+                _dbcontext.Add(expenseReport);
+                await _dbcontext.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(expenseReport);
@@ -83,7 +83,7 @@ namespace ExpenseReportRepo.Controllers
                 return NotFound();
             }
 
-            var expenseReport = await _context.ExpenseReport.SingleOrDefaultAsync(m => m.ID == id);
+            var expenseReport = await _dbcontext.ExpenseReport.SingleOrDefaultAsync(m => m.ID == id);
             if (expenseReport == null)
             {
                 return NotFound();
@@ -108,8 +108,8 @@ namespace ExpenseReportRepo.Controllers
                 try
                 {
                     expenseReport.UserName = User.Identity.Name;
-                    _context.Update(expenseReport);
-                    await _context.SaveChangesAsync();
+                    _dbcontext.Update(expenseReport);
+                    await _dbcontext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -135,7 +135,7 @@ namespace ExpenseReportRepo.Controllers
                 return NotFound();
             }
 
-            var expenseReport = await _context.ExpenseReport
+            var expenseReport = await _dbcontext.ExpenseReport
                 .SingleOrDefaultAsync(m => m.ID == id);
             if (expenseReport == null)
             {
@@ -150,9 +150,9 @@ namespace ExpenseReportRepo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var expenseReport = await _context.ExpenseReport.SingleOrDefaultAsync(m => m.ID == id);
-            _context.ExpenseReport.Remove(expenseReport);
-            await _context.SaveChangesAsync();
+            var expenseReport = await _dbcontext.ExpenseReport.SingleOrDefaultAsync(m => m.ID == id);
+            _dbcontext.ExpenseReport.Remove(expenseReport);
+            await _dbcontext.SaveChangesAsync();
             return RedirectToAction("Index");
         }
         #endregion
@@ -161,7 +161,7 @@ namespace ExpenseReportRepo.Controllers
         #region Private Helper Methods
         private bool ExpenseReportExists(int id)
         {
-            return _context.ExpenseReport.Any(e => e.ID == id);
+            return _dbcontext.ExpenseReport.Any(e => e.ID == id);
         }
 
         //Returns the value for total amount received for the CURRENT month

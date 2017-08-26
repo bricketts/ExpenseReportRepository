@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ExpenseReportRepo.Controllers
 {
@@ -78,6 +79,8 @@ namespace ExpenseReportRepo.Controllers
             
         }        
 
+        [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public IActionResult AddNewUser()
         {
             var model = new AddNewUserViewModel();
@@ -113,18 +116,62 @@ namespace ExpenseReportRepo.Controllers
             return View(vm);
         }
 
+        public async Task<IActionResult> Details(string id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await GetUserById(id);
+            if(user ==  null)
+            {
+                return NotFound();
+            }
+            
+            var vm = new UserManagementDetailsViewModel
+            {
+                UserId = id,
+                UserName = user.UserName,
+                Email = user.Email,
+                Password = "********",                
+                Reports = NumberOfReports(user)
+            };
+            
+            return View(vm);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            var user = await GetUserById(id);
+            return View();
+        }
+
         #endregion
 
-        #region Helper Methods
-
+        #region User Management Helper Methods
         private async Task<User> GetUserById(string id)
         {
             return await _userManager.FindByIdAsync(id);
         }
 
+        private async Task<User> GetUserByName(string id)
+        {
+            return await _userManager.FindByNameAsync(id);
+        }
+
         private SelectList GetAllRoles() => 
             new SelectList(_roleManager.Roles.OrderBy(r => r.Name));
 
+        private int NumberOfReports(User user)
+        {
+            return _dbcontext.ExpenseReport.Count(r => r.UserName == user.UserName);
+        }
         #endregion
     }
 }
