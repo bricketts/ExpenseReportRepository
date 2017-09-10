@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using ExpenseReportRepo.Models
+@model ExpenseReportRepo.ViewModels.UserManagementIndexViewModel
+@inject UserManager<User> userManager
+
+
+<h2>User Management</h2>
+
+<p>
+    <a asp-action="AddNewUser" asp-controller="UserManagement" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Email
+            </th>
+            <th>
+                Roles
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in Model.Users)
+    {
+        <tr>
+            <td>
+                @user.UserName
+            </td>
+            <td>
+                @(string.Join(", ", await userManager.GetRolesAsync(user)))
+            </td>
+            <td>
+                <a asp-action="AddRole" asp-controller="UserManagement" asp-route-id="@user.Id" class="btn btn-info pull-right">Add Role</a>
+                <a asp-action="Details" asp-controller="UserManagement" asp-route-id="@user.Id" class="btn btn-info pull-right">View</a> 
+            </td>
+            <td></td>
+        </tr>
+    }
+    </tbody>
+</table>

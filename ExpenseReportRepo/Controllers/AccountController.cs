@@ -7,23 +7,56 @@ using Microsoft.AspNetCore.Identity;
 using ExpenseReportRepo.Models;
 using ExpenseReportRepo.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace ExpenseReportRepo.Controllers
 {
     public class AccountController : Controller
     {
-        private SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public AccountController(SignInManager<User> signInManager)
+        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
+            _userManager = userManager;
             _signInManager = signInManager;
         }
 
+        [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new User
+                {
+                    UserName = vm.Email,
+                    Email = vm.Email
+                };
+                var result = await _userManager.CreateAsync(user, vm.Password);
+
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, false);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+            }
+            return View(vm);
+        }
+
+        [HttpGet]
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
@@ -39,8 +72,8 @@ namespace ExpenseReportRepo.Controllers
         {
             if (ModelState.IsValid)
             {
-                var signInResult = await _signInManager.PasswordSignInAsync(vm.UserName,
-                    vm.Password, false, false);
+                var signInResult = await _signInManager.PasswordSignInAsync(vm.Email,
+                    vm.Password, vm.RememberMe, false);
 
                 if (signInResult.Succeeded)
                 {
@@ -48,7 +81,7 @@ namespace ExpenseReportRepo.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Username or password incorrect");
+                    ModelState.AddModelError("", "Username or password is incorrect");
                 }
             }
 
@@ -65,6 +98,9 @@ namespace ExpenseReportRepo.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        
+        public ActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }

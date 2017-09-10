@@ -1,32 +1,36 @@
-﻿@model ExpenseReportRepo.ViewModels.RegisterViewModel
+﻿@model ExpenseReportRepo.ViewModels.AddNewUserViewModel
 
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Add New User";
 }
 
-<h2>Register</h2>
+<h2>Add New User</h2>
 
 <div class="row">
-    <div class="col-lg-5 col-lg-offset-2">
-        <form method="post" asp-controller ="Auth" asp-action="Register">
+    <div class="col-lg-4 col-md-offset-2">
+        <form method="post" asp-controller="UserManagement" asp-action="AddNewUser">
             <div asp-validation-summary="All"></div>
             <div class="form-group">
-                <label asp-for="Email"></label>
+                <label asp-for="Email">Email</label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Roles" class="control-label">Roles</label>                
+                <select asp-for="RoleId" asp-items="@Model.Roles" class="form-control">Please Select</select>                
+            </div>           
             <div class="form-group">
                 <label asp-for="Password"></label>
                 <input type="password" asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ConfirmPassword">Confirm Password</label>
+                <label asp-for="ConfirmPassword"></label>
                 <input type="password" asp-for="ConfirmPassword" class="form-control" />
                 <span asp-validation-for="ConfirmPassword"></span>
-            </div>
+            </div>            
             <div class="form-group">
-                <input type="submit" value="Register" class="btn btn-success" />
+                <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </form>
     </div>
