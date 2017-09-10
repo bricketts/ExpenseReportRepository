@@ -80,7 +80,7 @@ namespace ExpenseReportRepo.Controllers
         }        
 
         [HttpGet]
-        [Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Administrator")]
         public IActionResult AddNewUser()
         {
             var model = new AddNewUserViewModel();
@@ -149,7 +149,19 @@ namespace ExpenseReportRepo.Controllers
                 return NotFound();
             }
             var user = await GetUserById(id);
-            return View();
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var vm = new UserManagementEditViewModel
+            {
+                UserId = id,
+                UserName = user.UserName,                
+                Email = user.Email,
+                Password = "********"
+            };
+
+            return View(vm);
         }
 
         #endregion

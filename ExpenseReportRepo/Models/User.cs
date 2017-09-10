@@ -8,6 +8,6 @@ namespace ExpenseReportRepo.Models
 {
     public class User : IdentityUser
     {
-        public DateTime FirstReport { get; set; }
+        //public DateTime FirstReport { get; set; }
     }
 }
