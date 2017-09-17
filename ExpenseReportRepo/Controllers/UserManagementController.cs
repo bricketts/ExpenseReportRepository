@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System.Reflection;
 
 namespace ExpenseReportRepo.Controllers
 {
@@ -153,15 +154,20 @@ namespace ExpenseReportRepo.Controllers
             {
                 return NotFound();
             }
-            var vm = new UserManagementEditViewModel
-            {
-                UserId = id,
-                UserName = user.UserName,                
-                Email = user.Email,
-                Password = "********"
-            };
+            return View(user);
+        }
 
-            return View(vm);
+        [HttpPost]
+        public async Task<IActionResult> Edit(User updatedUser)
+        {
+            if (updatedUser == null) return BadRequest();
+
+            var currentUser = _dbcontext.Users.First(x => x.Id == updatedUser.Id);
+
+            currentUser.CopyData(updatedUser);
+            await _dbcontext.SaveChangesAsync();
+
+            return View(currentUser);
         }
 
         #endregion
